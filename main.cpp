@@ -2,63 +2,51 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "LinkedHashMap.hpp"
+#include "src.hpp"
 
 using namespace std;
 
 int main() {
-    // Test basic functionality
-    cout << "Testing LinkedHashMap implementation..." << endl;
+    int len, method;
+    cin >> len >> method;
     
-    // Create LinkedHashMap with time-based traversal
-    LinkedHashMap map1(10, true);
+    LinkedHashMap map(len, method==0);
     
-    // Insert some test data
-    map1.insert(1, "A");
-    map1.insert(2, "B");
-    map1.insert(1, "C");
-    map1.insert(3, "D");
+    int n;
+    cin >> n;
     
-    // Test ask function
-    vector<string> values1 = map1.ask(1);
-    cout << "Values for key 1: ";
-    for(int i = 0; i < values1.size(); i++) {
-        cout << values1[i] << " ";
+    for(int i = 0; i < n; i++) {
+        int op;
+        cin >> op;
+        
+        if(op == 1) {
+            int key;
+            string value;
+            cin >> key >> value;
+            map.insert(key, value);
+        } else if(op == 2) {
+            int key;
+            string value;
+            cin >> key >> value;
+            map.remove(key, value);
+        } else if(op == 3) {
+            int key;
+            cin >> key;
+            vector<string> ret = map.ask(key);
+            cout << ret.size();
+            for(int j = 0; j < ret.size(); j++) {
+                cout << " " << ret[j];
+            }
+            cout << endl;
+        } else if(op == 4) {
+            vector<Data> ret = map.forEach();
+            cout << ret.size();
+            for(int j = 0; j < ret.size(); j++) {
+                cout << " " << ret[j].key << " " << ret[j].value;
+            }
+            cout << endl;
+        }
     }
-    cout << endl;
-    
-    // Test forEach with time traversal
-    vector<Data> result1 = map1.forEach();
-    cout << "Time traversal: ";
-    for(int i = 0; i < result1.size(); i++) {
-        cout << "(" << result1[i].key << "," << result1[i].value << ") ";
-    }
-    cout << endl;
-    
-    // Test remove
-    map1.remove(1, "C");
-    values1 = map1.ask(1);
-    cout << "Values for key 1 after removing C: ";
-    for(int i = 0; i < values1.size(); i++) {
-        cout << values1[i] << " ";
-    }
-    cout << endl;
-    
-    // Create LinkedHashMap with index-based traversal
-    LinkedHashMap map2(10, false);
-    map2.insert(3, "X");
-    map2.insert(1, "Y");
-    map2.insert(2, "Z");
-    
-    // Test forEach with index traversal
-    vector<Data> result2 = map2.forEach();
-    cout << "Index traversal: ";
-    for(int i = 0; i < result2.size(); i++) {
-        cout << "(" << result2[i].key << "," << result2[i].value << ") ";
-    }
-    cout << endl;
-    
-    cout << "All tests completed successfully!" << endl;
     
     return 0;
 }
